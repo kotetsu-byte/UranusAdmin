@@ -1,8 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using UranusAdmin.Data;
+using UranusAdmin.Interfaces;
+using UranusAdmin.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

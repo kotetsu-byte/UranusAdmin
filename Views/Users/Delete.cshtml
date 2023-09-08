@@ -1,0 +1,38 @@
+﻿@model User
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1>Are you sure you want to delete this club?</h1>
+
+<form method="post" asp-action="Delete">
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" placeholder="Enter name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" placeholder="Enter email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address">Address</label>
+        <input asp-for="Address" class="form-control" placeholder="Enter address" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Username">Username</label>
+        <input asp-for="Username" class="form-control" placeholder="Enter username" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+</form>
+
+<div class="form-group">
+    <form action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+    </form>
+</div>

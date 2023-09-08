@@ -1,0 +1,42 @@
+﻿@model IEnumerable<User>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+table td, table th, table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+
+<div id="container">
+    <h2 id="header">Users</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Username</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.Address</td>
+                <td>@item.Username</td>
+                <td><button onclick="location.href = '@Url.Action("Update", "Users", new {id = item.Id})'">Edit</button></td>
+                <td><button onclick="location.href = '@Url.Action("Delete", "Users", new {id = item.Id})'">Delete</button></td>
+            </tr>
+        }
+    </table>
+    <br />
+    <button onclick="location.href = '@Url.Action("Create", "Users")'">Create User</button>
+</div>
