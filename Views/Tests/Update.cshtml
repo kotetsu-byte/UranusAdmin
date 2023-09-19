@@ -1,0 +1,57 @@
+﻿@using UranusAdmin.Dto
+@model TestDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form method="post" asp-action="Update">
+    <div class="form-group">
+        <label asp-for="Question">Name</label>
+        <input asp-for="Question" class="form-control" placeholder="Enter question" />
+        <span asp-validation-for="Question" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Answer1">Answer 1</label>
+        <input asp-for="Answer1" class="form-control" placeholder="Enter answer 1" />
+        <span asp-validation-for="Answer1" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Answer2">Answer 2</label>
+        <input asp-for="Answer2" class="form-control" placeholder="Enter answer 2" />
+        <span asp-validation-for="Answer2" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Answer3">Answer 3</label>
+        <input asp-for="Answer3" class="form-control" placeholder="Enter answer 3" />
+        <span asp-validation-for="Answer3" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Answer4">Answer 4</label>
+        <input asp-for="Answer4" class="form-control" placeholder="Enter answer 4" />
+        <span asp-validation-for="Answer4" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CorrectAnswer">Correct Answer</label>
+        <input asp-for="CorrectAnswer" class="form-control" placeholder="Enter correct answer" />
+        <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Points">Points</label>
+        <input asp-for="Points" class="form-control" placeholder="Enter points" />
+        <span asp-validation-for="Points" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Course.Name">Select Course</label>
+        <select asp-for="Course.Name" class="form-select">
+            <option value="0" disabled>-- Select Course --</option>
+            @foreach (var item in Model.Courses)
+            {
+                <option>@item</option>
+            }
+        </select>
+        <span asp-validation-for="Points" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

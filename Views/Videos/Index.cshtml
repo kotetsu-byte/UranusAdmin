@@ -1,0 +1,35 @@
+﻿@using UranusAdmin.Dto
+@model IEnumerable<VideoDto>
+
+
+<style>
+table td, table th, table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+
+<div id="container">
+    <h2 id="header">Videos</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Url</th>
+            <th>Lesson</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Url</td>
+                <td>@item.Lesson.Title</td>
+                <td><button onclick="location.href = '@Url.Action("Update", "Videos", new {id = item.Id})'">Edit</button></td>
+                <td><button onclick="location.href = '@Url.Action("Delete", "Videos", new {id = item.Id})'">Delete</button></td>
+            </tr>
+        }
+    </table>
+    <br />
+    <button onclick="location.href = '@Url.Action("Create", "Videos")'">Create Video</button>
+</div>

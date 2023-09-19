@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using UranusAdmin.Dto;
 using UranusAdmin.Interfaces;
 using UranusAdmin.Models;
 
@@ -7,21 +9,23 @@ namespace UranusAdmin.Controllers
     public class UsersController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
-            IEnumerable<User> users = await _userRepository.GetUsersAsync();
-            return View(users);
+            var usersMap = _mapper.Map<List<UserDto>>(await _userRepository.GetUsersAsync());
+            return View(usersMap);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            User user = await _userRepository.GetUserByIdAsync(id);
-            return View(user);
+            var userMap = _mapper.Map<UserDto>(await _userRepository.GetUserByIdAsync(id));
+            return View(userMap);
         }
 
         public IActionResult Create()
@@ -30,29 +34,31 @@ namespace UranusAdmin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(User user)
+        public IActionResult Create(UserDto userCreate)
         {
+            var user = _mapper.Map<User>(userCreate);
             _userRepository.Create(user);
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Update(int id) 
         {
-            var user = await _userRepository.GetUserByIdAsync(id);
-            return View(user);
+            var userMap = _mapper.Map<UserDto>(await _userRepository.GetUserByIdAsync(id));
+            return View(userMap);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(User user)
+        public IActionResult Update(UserDto userUpdate)
         {
+            var user = _mapper.Map<User>(userUpdate);
             _userRepository.Update(user);
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var user = await _userRepository.GetUserByIdAsync(id);
-            return View(user);
+            var userMap = _mapper.Map<UserDto>(await _userRepository.GetUserByIdAsync(id));
+            return View(userMap);
         }
 
         [HttpPost, ActionName("Delete")]

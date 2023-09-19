@@ -1,0 +1,39 @@
+﻿@using UranusAdmin.Dto
+@model VideoDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1>Are you sure you want to delete this video?</h1>
+
+<form method="post" asp-action="Delete">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" placeholder="Enter title" disabled/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Url">Url</label>
+        <input asp-for="Url" class="form-control" placeholder="Enter url" disabled/>
+        <span asp-validation-for="Url" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Lesson.Title">Lesson</label>
+        <select asp-for="Lesson.Title" class="form-select" disabled>
+            <option>-- Select Lesson --</option>
+            @foreach (var item in Model.Lessons)
+            {
+                <option>@item</option>
+            }
+        </select>
+    </div>
+</form>
+
+<div class="form-group">
+    <form action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+    </form>
+</div>

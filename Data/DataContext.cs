@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using UranusAdmin.Models;
 
 namespace UranusAdmin.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -33,7 +34,8 @@ namespace UranusAdmin.Data
                 .HasOne(c => c.Course)
                 .WithMany(uc => uc.UserCourses)
                 .HasForeignKey(c => c.CourseId);
-        }
 
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

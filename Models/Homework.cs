@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UranusAdmin.Models
 {
@@ -8,9 +9,12 @@ namespace UranusAdmin.Models
         public int? Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
+        public DateOnly? Deadline { get; set; }
+        [ForeignKey("Material")]
+        public int? MaterialId { get; set; }
         public ICollection<Material>? Materials { get; set; }
-        public DateTime? Deadline { get; set; }
-        public bool? IsDone { get; set; }
+        [ForeignKey("Lesson")]
+        public int? LessonId { get; set; }
         public Lesson? Lesson { get; set; }
     }
 }
