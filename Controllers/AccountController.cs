@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UranusAdmin.Data;
 using UranusAdmin.Dto;
 using UranusAdmin.Models;
 
@@ -8,15 +7,13 @@ namespace UranusAdmin.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly DataContext _context;
+        private readonly UserManager<Admin> _userManager;
+        private readonly SignInManager<Admin> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, DataContext context)
+        public AccountController(UserManager<Admin> userManager, SignInManager<Admin> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
         public IActionResult Login()
         {
@@ -27,23 +24,22 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            var admin = await _userManager.FindByNameAsync(loginDto.Username);
 
-            if(user != null)
+            if(admin != null)
             {
-                var passwordCheck = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+                var passwordCheck = await _userManager.CheckPasswordAsync(admin, loginDto.Password);
                 if(passwordCheck)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
+                    var result = await _signInManager.PasswordSignInAsync(admin, loginDto.Password, false, false);
                     if(result.Succeeded)
                     {
+                        await _signInManager.SignInAsync(admin, false);
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                TempData["Error"] = "Wrong credentials. Please try again";
                 return View(loginDto);
             }
-            TempData["Error"] = "Wrong credentials. Please try again";
             return View(loginDto);
         }
 
@@ -56,32 +52,25 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-            var user = await _userManager.FindByEmailAsync(registerDto.Email);
-            if(user != null) 
+            var admin = new Admin()
             {
-                TempData["Error"] = "This email address is already in use";
-                return View(registerDto);
-            }
-
-            var newUser = new User()
-            {
-                Username = registerDto.Email,
-                Email = registerDto.Email
+                UserName = registerDto.Username
             };
-            var newUserResponse = await _userManager.CreateAsync(newUser, registerDto.Password);
-            if(newUserResponse.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
-            }
 
-            return RedirectToAction("Login");
+            var result = await _userManager.CreateAsync(admin, registerDto.Password);
+
+            if(result.Succeeded)
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(LoginDto loginDto)
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

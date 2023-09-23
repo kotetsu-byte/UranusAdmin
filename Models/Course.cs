@@ -17,6 +17,5 @@ namespace UranusAdmin.Models
         [ForeignKey("Lesson")]
         public int? LessonId { get; set; }
         public ICollection<Lesson>? Lessons { get; set; }
-        public ICollection<UserCourse>? UserCourses { get; set; }
     }
 }
