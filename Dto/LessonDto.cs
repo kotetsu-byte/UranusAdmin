@@ -8,6 +8,6 @@ namespace UranusAdmin.Dto
         public string? Title { get; set; }
         public string? Content { get; set; }
         public Course? Course { get; set; }
-        public List<string> Courses { get; set; }
+        public List<string>? Courses { get; set; }
     }
 }

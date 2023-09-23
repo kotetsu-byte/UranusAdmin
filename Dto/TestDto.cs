@@ -14,6 +14,6 @@ namespace UranusAdmin.Dto
         public int? CorrectAnswer { get; set; }
         public int? Points { get; set; }
         public Course? Course { get; set; }
-        public List<string> Courses { get; set; }
+        public List<string>? Courses { get; set; }
     }
 }

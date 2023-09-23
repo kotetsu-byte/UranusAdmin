@@ -1,5 +1,21 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using UranusAdmin.Dto
+@model VideoDto
+
+<h1>Video Details</h1>
+
+<div class="container">
+    <table>
+        <tr>
+            <th>Title</th>
+            <td>@Model.Title</td>
+        </tr>
+        <tr>
+            <th>Url</th>
+            <td>@Model.Url</td>
+        </tr>
+        <tr>
+            <th>Lesson</th>
+            <td>@Model.Lesson.Title</td>
+        </tr>
+    </table>
+</div>

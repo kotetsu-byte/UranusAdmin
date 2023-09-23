@@ -12,7 +12,7 @@ using UranusAdmin.Data;
 namespace UranusAdmin.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230923094256_Init")]
+    [Migration("20230923115341_Init")]
     partial class Init
     {
         /// <inheritdoc />

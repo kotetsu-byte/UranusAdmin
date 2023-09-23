@@ -1,1 +1,21 @@
-﻿
+﻿@using UranusAdmin.Dto
+@model DocDto
+
+<h1>Doc Details</h1>
+
+<div class="container">
+    <table>
+        <tr>
+            <th>Title</th>
+            <td>@Model.Title</td>
+        </tr>
+        <tr>
+            <th>Url</th>
+            <td>@Model.Url</td>
+        </tr>
+        <tr>
+            <th>Lesson</th>
+            <td>@Model.Lesson.Title</td>
+        </tr>
+    </table>
+</div>

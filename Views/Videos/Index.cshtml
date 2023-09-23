@@ -16,6 +16,7 @@ table td, table th, table {
             <th>Title</th>
             <th>Url</th>
             <th>Lesson</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -25,6 +26,7 @@ table td, table th, table {
                 <td>@item.Title</td>
                 <td>@item.Url</td>
                 <td>@item.Lesson.Title</td>
+                <td><button onclick="location.href = '@Url.Action("Details", "Videos", new {id = item.Id})'">Details</button></td>
                 <td><button onclick="location.href = '@Url.Action("Update", "Videos", new {id = item.Id})'">Edit</button></td>
                 <td><button onclick="location.href = '@Url.Action("Delete", "Videos", new {id = item.Id})'">Delete</button></td>
             </tr>

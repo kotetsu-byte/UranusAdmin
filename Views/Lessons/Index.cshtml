@@ -15,6 +15,7 @@
             <th>Title</th>
             <th>Content</th>
             <th>Course</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -24,6 +25,7 @@
                 <td>@item.Title</td>
                 <td>@item.Content</td>
                 <td>@item.Course.Name</td>
+                <td><button onclick="location.href = '@Url.Action("Details", "Lessons", new {id = item.Id})'">Details</button></td>
                 <td><button onclick="location.href = '@Url.Action("Update", "Lessons", new {id = item.Id})'">Edit</button></td>
                 <td><button onclick="location.href = '@Url.Action("Delete", "Lessons", new {id = item.Id})'">Delete</button></td>
             </tr>

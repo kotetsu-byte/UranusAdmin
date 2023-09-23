@@ -14,8 +14,8 @@
         <tr>
             <th>Title</th>
             <th>Url</th>
-            <a href="d:\jobs\napa\tasks\uranusadmin\views\materials\index.cshtml">d:\jobs\napa\tasks\uranusadmin\views\materials\index.cshtml</a>
             <th>Homework</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -25,6 +25,7 @@
                 <td>@item.Title</td>
                 <td>@item.Url</td>
                 <td>@item.Homework.Title</td>
+                <td><button onclick="location.href = '@Url.Action("Details", "Materials", new {id = item.Id})'">Details</button></td>
                 <td><button onclick="location.href = '@Url.Action("Update", "Materials", new {id = item.Id})'">Edit</button></td>
                 <td><button onclick="location.href = '@Url.Action("Delete", "Materials", new {id = item.Id})'">Delete</button></td>
             </tr>
