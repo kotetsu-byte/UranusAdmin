@@ -16,17 +16,17 @@ namespace UranusAdmin.Repositories
 
         public async Task<IEnumerable<Video>> GetVideosAsync()
         {
-            return await _context.Videos.Include(l => l.Lesson).ToListAsync();
+            return await _context.Videos.ToListAsync();
         }
 
         public async Task<Video> GetVideoByIdAsync(int id)
         {
-            return await _context.Videos.Include(l => l.Lesson).FirstOrDefaultAsync(v => v.Id == id);
+            return await _context.Videos.FirstOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<List<string>> GetAllNamesOfLessonsAsync()
+        public async Task<List<Lesson>> GetAllLessonsAsync()
         {
-            return await _context.Lessons.Select(l => l.Title).ToListAsync();
+            return await _context.Lessons.ToListAsync();
         }
 
         public bool Create(Video video)

@@ -6,7 +6,7 @@ namespace UranusAdmin.Interfaces
     {
         Task<IEnumerable<Video>> GetVideosAsync();
         Task<Video> GetVideoByIdAsync(int id);
-        Task<List<string>> GetAllNamesOfLessonsAsync();
+        Task<List<Lesson>> GetAllLessonsAsync();
         bool Create(Video video);
         bool Update(Video video);
         bool Delete(Video video);

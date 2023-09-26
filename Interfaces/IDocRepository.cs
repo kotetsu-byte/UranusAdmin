@@ -6,7 +6,7 @@ namespace UranusAdmin.Interfaces
     {
         Task<IEnumerable<Doc>> GetDocsAsync();
         Task<Doc> GetDocByIdAsync(int id);
-        Task<List<string>> GetAllNamesOfLessonsAsync();
+        Task<List<Lesson>> GetAllLessonsAsync();
         bool Create(Doc doc);
         bool Update(Doc doc);
         bool Delete(Doc doc);

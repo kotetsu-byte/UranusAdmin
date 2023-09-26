@@ -19,7 +19,7 @@ namespace UranusAdmin.Repositories
             return await _context.Courses.ToListAsync();
         }
 
-        public async Task<Course> GetCourseByIdAsync(int id)
+        public async Task<Course> GetCourseByIdAsync(int? id)
         {
             return await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
         }

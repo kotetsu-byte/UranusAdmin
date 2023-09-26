@@ -6,7 +6,7 @@ namespace UranusAdmin.Interfaces
     {
         Task<IEnumerable<Homework>> GetHomeworksAsync();
         Task<Homework> GetHomeworkByIdAsync(int id);
-        Task<List<string>> GetAllNamesOfLessonsAsync();
+        Task<List<Lesson>> GetAllLessonsAsync();
         bool Create(Homework homework);
         bool Update(Homework homework);
         bool Delete(Homework homework);

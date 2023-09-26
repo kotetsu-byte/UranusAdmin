@@ -15,31 +15,24 @@ table td, table th, table {
 
 <div id="container">
     <h2 id="header">Users</h2>
-    <table>
-        <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Username</th>
-            <th>Details</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        @foreach(var item in Model)
-        {
-            <tr>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td>@item.Email</td>
-                <td>@item.Address</td>
-                <td>@item.Username</td>
-                <td><button onclick="location.href = '@Url.Action("Details", "Users", new {id = item.Id})'">Details</button></td>
-                <td><button onclick="location.href = '@Url.Action("Update", "Users", new {id = item.Id})'">Edit</button></td>
-                <td><button onclick="location.href = '@Url.Action("Delete", "Users", new {id = item.Id})'">Delete</button></td>
-            </tr>
-        }
-    </table>
+    @(
+        Html
+                                .Grid(Model)
+                                .Build(columns =>
+                                {
+                                    columns.Add(model => model.FirstName).Titled("First name");
+                                    columns.Add(model => model.LastName).Titled("Last name");
+                                    columns.Add(model => model.Email).Titled("Email");
+                                    columns.Add(model => model.Address).Titled("Address");
+                                    columns.Add(model => model.Username).Titled("Username");
+                                    columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Users", new { id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
+                                    columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Users", new { id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
+                                    columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Users", new { id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
+                                })
+                                .Sortable()
+                                .Filterable()
+                                .Empty("No Data Found")
+    )
     <br />
     <button onclick="location.href = '@Url.Action("Create", "Users")'">Create User</button>
 </div>

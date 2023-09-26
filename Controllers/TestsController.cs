@@ -14,11 +14,13 @@ namespace UranusAdmin.Controllers
     public class TestsController : Controller
     {
         private readonly ITestRepository _testRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public TestsController(ITestRepository testRepository, IMapper mapper)
+        public TestsController(ITestRepository testRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _testRepository = testRepository;
+            _courseRepository = courseRepository;
             _mapper = mapper;
         }
 
@@ -37,12 +39,12 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Create()
         {
             var testDto = new TestDto();
-            testDto.Courses = await _testRepository.GetAllNamesOfCoursesAsync();
+            testDto.Courses = await _testRepository.GetAllCoursesAsync();
             return View(testDto);
         }
 
         [HttpPost]
-        public IActionResult Create(TestDto testCreate)
+        public async Task<IActionResult> Create(TestDto testCreate)
         {
             var test = _mapper.Map<Test>(testCreate);
             _testRepository.Create(test);
@@ -52,12 +54,12 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var testMap = _mapper.Map<TestDto>(await _testRepository.GetTestByIdAsync(id));
-            testMap.Courses = await _testRepository.GetAllNamesOfCoursesAsync();
+            testMap.Courses = await _testRepository.GetAllCoursesAsync();
             return View(testMap);
         }
 
         [HttpPost]
-        public IActionResult Update(TestDto testUpdate)
+        public async Task<IActionResult> Update(TestDto testUpdate)
         {
             var test = _mapper.Map<Test>(testUpdate);
             _testRepository.Update(test);
@@ -67,7 +69,7 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var testMap = _mapper.Map<TestDto>(await _testRepository.GetTestByIdAsync(id));
-            testMap.Courses = await _testRepository.GetAllNamesOfCoursesAsync();
+            testMap.Courses = await _testRepository.GetAllCoursesAsync();
             return View(testMap);
         }
 

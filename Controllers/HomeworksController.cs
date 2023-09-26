@@ -9,11 +9,13 @@ namespace UranusAdmin.Controllers
     public class HomeworksController : Controller
     {
         private readonly IHomeworkRepository _homeworkRepository;
+        private readonly ILessonRepository _lessonRepository;
         private readonly IMapper _mapper;
 
-        public HomeworksController(IHomeworkRepository homeworkRepository, IMapper mapper)
+        public HomeworksController(IHomeworkRepository homeworkRepository, ILessonRepository lessonRepository, IMapper mapper)
         {
             _homeworkRepository = homeworkRepository;
+            _lessonRepository = lessonRepository;
             _mapper = mapper;
         }
 
@@ -32,12 +34,12 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Create()
         {
             var homeworkDto = new HomeworkDto();
-            homeworkDto.Lessons = await _homeworkRepository.GetAllNamesOfLessonsAsync();
+            homeworkDto.Lessons = await _homeworkRepository.GetAllLessonsAsync();
             return View(homeworkDto);
         }
 
         [HttpPost]
-        public IActionResult Create(HomeworkDto homeworkCreate)
+        public async Task<IActionResult> Create(HomeworkDto homeworkCreate)
         {
             var homework = _mapper.Map<Homework>(homeworkCreate);
             _homeworkRepository.Create(homework);
@@ -47,11 +49,12 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var homeworkMap = _mapper.Map<HomeworkDto>(await _homeworkRepository.GetHomeworkByIdAsync(id));
+            homeworkMap.Lessons = await _homeworkRepository.GetAllLessonsAsync();
             return View(homeworkMap);
         }
 
         [HttpPost]
-        public IActionResult Update(HomeworkDto homeworkUpdate)
+        public async Task<IActionResult> Update(HomeworkDto homeworkUpdate)
         {
             var homework = _mapper.Map<Homework>(homeworkUpdate);
             _homeworkRepository.Update(homework);
@@ -61,6 +64,7 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var homeworkMap = _mapper.Map<HomeworkDto>(await _homeworkRepository.GetHomeworkByIdAsync(id));
+            homeworkMap.Lessons = await _homeworkRepository.GetAllLessonsAsync();
             return View(homeworkMap);
         }
 

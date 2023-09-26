@@ -59,9 +59,7 @@ namespace UranusAdmin.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Price = table.Column<double>(type: "double precision", nullable: true),
-                    TestId = table.Column<int>(type: "integer", nullable: true),
-                    LessonId = table.Column<int>(type: "integer", nullable: true)
+                    Price = table.Column<double>(type: "double precision", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,9 +197,6 @@ namespace UranusAdmin.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Content = table.Column<string>(type: "text", nullable: true),
-                    VideoId = table.Column<int>(type: "integer", nullable: true),
-                    DocId = table.Column<int>(type: "integer", nullable: true),
-                    HomeworkId = table.Column<int>(type: "integer", nullable: true),
                     CourseId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -268,7 +263,6 @@ namespace UranusAdmin.Migrations
                     Title = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Deadline = table.Column<DateOnly>(type: "date", nullable: true),
-                    MaterialId = table.Column<int>(type: "integer", nullable: true),
                     LessonId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>

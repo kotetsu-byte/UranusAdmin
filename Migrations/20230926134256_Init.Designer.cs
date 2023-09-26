@@ -12,7 +12,7 @@ using UranusAdmin.Data;
 namespace UranusAdmin.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230923115341_Init")]
+    [Migration("20230926134256_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -232,17 +232,11 @@ namespace UranusAdmin.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int?>("LessonId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<double?>("Price")
                         .HasColumnType("double precision");
-
-                    b.Property<int?>("TestId")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -290,9 +284,6 @@ namespace UranusAdmin.Migrations
                     b.Property<int?>("LessonId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("MaterialId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
@@ -317,17 +308,8 @@ namespace UranusAdmin.Migrations
                     b.Property<int?>("CourseId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("DocId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("HomeworkId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .HasColumnType("text");
-
-                    b.Property<int?>("VideoId")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

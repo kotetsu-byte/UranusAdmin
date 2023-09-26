@@ -6,7 +6,7 @@ namespace UranusAdmin.Interfaces
     {
         Task<IEnumerable<Material>> GetMaterialsAsync();
         Task<Material> GetMaterialByIdAsync(int id);
-        Task<List<string>> GetAllNamesOfHomeworksAsync();
+        Task<List<Homework>> GetAllHomeworksAsync();
         bool Create(Material material);
         bool Update(Material material);
         bool Delete(Material material);

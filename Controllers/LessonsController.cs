@@ -10,9 +10,10 @@ namespace UranusAdmin.Controllers
     public class LessonsController : Controller
     {
         private readonly ILessonRepository _lessonRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public LessonsController(ILessonRepository lessonRepository, IMapper mapper)
+        public LessonsController(ILessonRepository lessonRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _lessonRepository = lessonRepository;
             _mapper = mapper;
@@ -33,12 +34,12 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Create()
         {
             var lessonDto = new LessonDto();
-            lessonDto.Courses = await _lessonRepository.GetAllNamesOfCoursesAsync();
+            lessonDto.Courses = await _lessonRepository.GetAllCoursesAsync();
             return View(lessonDto);
         }
 
         [HttpPost]
-        public IActionResult Create(LessonDto lessonCreate)
+        public async Task<IActionResult> Create(LessonDto lessonCreate)
         {
             var lesson = _mapper.Map<Lesson>(lessonCreate);
             _lessonRepository.Create(lesson);
@@ -48,11 +49,12 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var lessonMap = _mapper.Map<LessonDto>(await _lessonRepository.GetLessonByIdAsync(id));
+            lessonMap.Courses = await _lessonRepository.GetAllCoursesAsync();
             return View(lessonMap);
         }
 
         [HttpPost]
-        public IActionResult Update(LessonDto lessonUpdate)
+        public async Task<IActionResult> Update(LessonDto lessonUpdate)
         {
             var lesson = _mapper.Map<Lesson>(lessonUpdate);
             _lessonRepository.Update(lesson);
@@ -62,6 +64,7 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var lessonMap = _mapper.Map<LessonDto>(await _lessonRepository.GetLessonByIdAsync(id));
+            lessonMap.Courses = await _lessonRepository.GetAllCoursesAsync();
             return View(lessonMap);
         }
 

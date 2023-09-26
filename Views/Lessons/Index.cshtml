@@ -10,27 +10,24 @@
 
 <div id="container">
     <h2 id="header">Lessons</h2>
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Course</th>
-            <th>Details</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        @foreach (var item in Model)
+    
+    @(
+        Html
+        .Grid(Model)
+        .Build(columns =>
         {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.Content</td>
-                <td>@item.Course.Name</td>
-                <td><button onclick="location.href = '@Url.Action("Details", "Lessons", new {id = item.Id})'">Details</button></td>
-                <td><button onclick="location.href = '@Url.Action("Update", "Lessons", new {id = item.Id})'">Edit</button></td>
-                <td><button onclick="location.href = '@Url.Action("Delete", "Lessons", new {id = item.Id})'">Delete</button></td>
-            </tr>
-        }
-    </table>
+            columns.Add(model => model.Title).Titled("Title");
+            columns.Add(model => model.Content).Titled("Content");
+            columns.Add(model => model.Course.Name).Titled("Course");
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Lessons", new { id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Lessons", new { id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Lessons", new { id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
+        })
+        .Sortable()
+        .Filterable()
+        .Empty("No Data Found")
+        )
+    
     <br />
     <button onclick="location.href = '@Url.Action("Create", "Lessons")'">Create Lesson</button>
 </div>

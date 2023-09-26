@@ -9,40 +9,40 @@ namespace UranusAdmin.Controllers
     public class DocsController : Controller
     {
         private readonly IDocRepository _docRepository;
+        private readonly ILessonRepository _lessonRepository;
         private readonly IMapper _mapper;
 
-        public DocsController(IDocRepository docRepository, IMapper mapper)
+        public DocsController(IDocRepository docRepository, ILessonRepository lessonRepository, IMapper mapper)
         {
             _docRepository = docRepository;
+            _lessonRepository = lessonRepository;
             _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
             var docsMap = _mapper.Map<List<DocDto>>(await _docRepository.GetDocsAsync());
-            
             return View(docsMap);
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var docMap = _mapper.Map<DocDto>(await _docRepository.GetDocByIdAsync(id));
-
             return View(docMap);
         }
 
         public async Task<IActionResult> Create()
         {
             var docDto = new DocDto();
-            docDto.Lessons = await _docRepository.GetAllNamesOfLessonsAsync();
+            docDto.Lessons = await _docRepository.GetAllLessonsAsync();
             return View(docDto);
         }
 
         [HttpPost]
-        public IActionResult Create(DocDto docCreate)
+        public async Task<IActionResult> Create(DocDto docCreate)
         {
             var doc = _mapper.Map<Doc>(docCreate);
-            
+
             _docRepository.Create(doc);
 
             return RedirectToAction("Index");
@@ -51,15 +51,15 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var docMap = _mapper.Map<DocDto>(await _docRepository.GetDocByIdAsync(id));
-
+            docMap.Lessons = await _docRepository.GetAllLessonsAsync();
             return View(docMap);
         }
 
         [HttpPost]
-        public IActionResult Update(DocDto docUpdate)
+        public async Task<IActionResult> Update(DocDto docUpdate)
         {
             var doc = _mapper.Map<Doc>(docUpdate);
-            
+
             _docRepository.Update(doc);
 
             return RedirectToAction("Index");
@@ -68,7 +68,7 @@ namespace UranusAdmin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var docMap = _mapper.Map<DocDto>(await _docRepository.GetDocByIdAsync(id));
-
+            docMap.Lessons = await _docRepository.GetAllLessonsAsync();
             return View(docMap);
         }
 

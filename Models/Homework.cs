@@ -10,8 +10,6 @@ namespace UranusAdmin.Models
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateOnly? Deadline { get; set; }
-        [ForeignKey("Material")]
-        public int? MaterialId { get; set; }
         public ICollection<Material>? Materials { get; set; }
         [ForeignKey("Lesson")]
         public int? LessonId { get; set; }

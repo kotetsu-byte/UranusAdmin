@@ -1,4 +1,5 @@
-﻿using UranusAdmin.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using UranusAdmin.Models;
 
 namespace UranusAdmin.Dto
 {
@@ -8,6 +9,7 @@ namespace UranusAdmin.Dto
         public string? Title { get; set; }
         public string? Content { get; set; }
         public Course? Course { get; set; }
-        public List<string>? Courses { get; set; }
+        public int? CourseId { get; set; }
+        public List<Course>? Courses { get; set; }  
     }
 }

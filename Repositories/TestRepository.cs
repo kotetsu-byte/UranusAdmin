@@ -16,17 +16,17 @@ namespace UranusAdmin.Repositories
 
         public async Task<IEnumerable<Test>> GetTestsAsync()
         {
-            return await _context.Tests.Include(c => c.Course).ToListAsync();
+            return await _context.Tests.ToListAsync();
         }
 
         public async Task<Test> GetTestByIdAsync(int id)
         {
-            return await _context.Tests.Include(c => c.Course).FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Tests.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<List<string>> GetAllNamesOfCoursesAsync()
+        public async Task<List<Course>> GetAllCoursesAsync()
         {
-            return await _context.Courses.Select(n => n.Name).ToListAsync();
+            return await _context.Courses.ToListAsync();
         }
 
         public bool Create(Test test)

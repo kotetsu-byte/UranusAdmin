@@ -8,6 +8,7 @@ namespace UranusAdmin.Dto
         public string? Title { get; set; }
         public string? Url { get; set; }
         public Lesson? Lesson { get; set; }
-        public List<string>? Lessons { get; set; }
+        public int? LessonId { get; set; }
+        public List<Lesson>? Lessons { get; set; }
     }
 }
