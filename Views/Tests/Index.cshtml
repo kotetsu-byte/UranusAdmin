@@ -27,10 +27,9 @@
             columns.Add(model => model.Answer4).Titled("Answer 4");
             columns.Add(model => model.CorrectAnswer).Titled("Correct Answer");
             columns.Add(model => model.Points).Titled("Points");
-            columns.Add(model => model.Course.Name).Titled("Course");
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Courses", new { id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Courses", new { id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Courses", new { id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Testss", new { courseId = model.CourseId, id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Tests", new { courseId = model.CourseId, id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Tests", new { courseId = model.CourseId, id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
         })
         .Sortable()
         .Filterable()
@@ -38,5 +37,14 @@
         )
 
     <br />
-    <button onclick="window.location.href = '@Url.Action("Create", "Tests")'">Create Test</button>
+    <button onclick="window.location.pathname = redirectToCreate()">Create Test</button>
 </div>
+
+<script>
+    function redirectToCreate() {
+        var str = location.pathname;
+        var id = str.slice(str.lastIndexOf('/') + 1);
+        var url = 'Tests/Create/' + id;
+        return url;
+    }
+</script>

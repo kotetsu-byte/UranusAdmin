@@ -14,19 +14,14 @@ namespace UranusAdmin.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Test>> GetTestsAsync()
+        public async Task<IEnumerable<Test>> GetTestsAsync(int courseId)
         {
-            return await _context.Tests.ToListAsync();
+            return await _context.Tests.Where(t => t.Course.Id == courseId).ToListAsync();
         }
 
-        public async Task<Test> GetTestByIdAsync(int id)
+        public async Task<Test> GetTestByIdAsync(int courseId, int id)
         {
-            return await _context.Tests.FirstOrDefaultAsync(t => t.Id == id);
-        }
-
-        public async Task<List<Course>> GetAllCoursesAsync()
-        {
-            return await _context.Courses.ToListAsync();
+            return await _context.Tests.Where(t => t.Course.Id == courseId).FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public bool Create(Test test)

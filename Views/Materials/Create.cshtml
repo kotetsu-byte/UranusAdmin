@@ -12,16 +12,6 @@
         <input asp-for="Url" class="form-control" placeholder="Enter url" />
         <span asp-validation-for="Url" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="HomeworkId">Select Homework</label>
-        <select asp-for="HomeworkId" class="form-select">
-            <option>-- Select Homework --</option>
-            @foreach(var item in Model.Homeworks)
-            {
-                <option value="@item.Id">@item.Title</option>
-            }
-        </select>
-    </div>
-
+    <br />
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>

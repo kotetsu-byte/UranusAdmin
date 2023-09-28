@@ -10,6 +10,7 @@ namespace UranusAdmin.Dto
         public DateOnly? Deadline { get; set; }
         public Lesson? Lesson { get; set; }
         public int? LessonId { get; set; }
-        public List<Lesson>? Lessons { get; set; }
+        public Course? Course { get; set; }
+        public int? CourseId { get; set; }
     }
 }

@@ -18,6 +18,9 @@ namespace UranusAdmin.Dto
         }
         public Homework? Homework { get; set; }
         public int? HomeworkId { get; set; }
-        public List<Homework>? Homeworks { get; set; }
+        public Lesson? Lesson { get; set; }
+        public int? LessonId { get; set; }
+        public Course? Course { get; set; }
+        public int? CourseId { get; set; }
     } 
 }

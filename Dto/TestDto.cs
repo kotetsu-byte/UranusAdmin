@@ -15,6 +15,5 @@ namespace UranusAdmin.Dto
         public int? Points { get; set; }
         public Course? Course { get; set; }
         public int? CourseId { get; set; }
-        public List<Course>? Courses { get; set; }
     }
 }

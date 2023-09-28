@@ -12,16 +12,6 @@
         <input asp-for="Content" class="form-control" placeholder="Enter content" />
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Course.Name">Select Course</label>
-        <select asp-for="Course.Name" class="form-select">
-            <option value="0" disabled>-- Select Course --</option>
-            @foreach(var item in Model.Courses)
-            {
-                <option>@item.Name</option>
-            }
-        </select>
-    </div>
-
+    <br />
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>

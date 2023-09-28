@@ -14,20 +14,16 @@ namespace UranusAdmin.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Homework>> GetHomeworksAsync()
+        public async Task<IEnumerable<Homework>> GetHomeworksAsync(int courseId, int lessonId)
         {
-            return await _context.Homeworks.ToListAsync();
+            return await _context.Homeworks.Where(h => h.Course.Id == courseId).Where(h => h.Lesson.Id == lessonId).ToListAsync();
         }
 
-        public async Task<Homework> GetHomeworkByIdAsync(int id)
+        public async Task<Homework> GetHomeworkByIdAsync(int courseId, int lessonId, int id)
         {
-            return await _context.Homeworks.FirstOrDefaultAsync(h => h.Id == id);
+            return await _context.Homeworks.Where(h => h.Course.Id == courseId).Where(h => h.Lesson.Id == lessonId).FirstOrDefaultAsync(h => h.Id == id);
         }
 
-        public async Task<List<Lesson>> GetAllLessonsAsync()
-        {
-            return await _context.Lessons.ToListAsync();
-        }
 
         public bool Create(Homework homework)
         {

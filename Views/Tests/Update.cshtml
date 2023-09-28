@@ -1,10 +1,6 @@
 ﻿@using UranusAdmin.Dto
 @model TestDto
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+
 <form method="post" asp-action="Update">
     <div class="form-group">
         <label asp-for="Question">Name</label>
@@ -41,17 +37,6 @@
         <input asp-for="Points" class="form-control" placeholder="Enter points" />
         <span asp-validation-for="Points" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="CourseId">Select Course</label>
-        <select asp-for="CourseId" class="form-select">
-            <option value="0" disabled>-- Select Course --</option>
-            @foreach (var item in Model.Courses)
-            {
-                <option value="@item.Id">@item.Name</option>
-            }
-        </select>
-        <span asp-validation-for="Points" class="text-danger"></span>
-    </div>
-
+    <br />
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>

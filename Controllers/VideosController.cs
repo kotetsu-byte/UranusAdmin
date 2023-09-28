@@ -9,72 +9,88 @@ namespace UranusAdmin.Controllers
     public class VideosController : Controller
     {
         private readonly IVideoRepository _videoRepository;
-        private readonly ILessonRepository _lessonRepository;
         private readonly IMapper _mapper;
 
         public VideosController(IVideoRepository videoRepository, ILessonRepository lessonRepository, IMapper mapper)
         {
             _videoRepository = videoRepository;
-            _lessonRepository = lessonRepository;
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        [Route("[controller]/[action]/{courseId}/{lessonId}")]
+        public async Task<IActionResult> Index(int courseId, int lessonId)
         {
-            var videosMap = _mapper.Map<List<VideoDto>>(await _videoRepository.GetVideosAsync());
+            var videosMap = _mapper.Map<List<VideoDto>>(await _videoRepository.GetVideosAsync(courseId, lessonId));
+            foreach(var videoMap in videosMap)
+            {
+                videoMap.CourseId = courseId;
+                videoMap.LessonId = lessonId;
+            }
             return View(videosMap);
         }
 
-        public async Task<IActionResult> Details(int id)
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
+        public async Task<IActionResult> Details(int courseId, int lessonId, int id)
         {
-            var videoMap = _mapper.Map<VideoDto>(await _videoRepository.GetVideoByIdAsync(id));
+            var videoMap = _mapper.Map<VideoDto>(await _videoRepository.GetVideoByIdAsync(courseId, lessonId, id));
+            videoMap.CourseId = courseId;
+            videoMap.LessonId = lessonId;
             return View(videoMap);
         }
 
-        public async Task<IActionResult> Create()
+        [Route("[controller]/[action]/{courseId}/{lessonId}")]
+        public async Task<IActionResult> Create(int courseId, int lessonId)
         {
             var videoDto = new VideoDto();
-            videoDto.Lessons = await _videoRepository.GetAllLessonsAsync();
+            videoDto.CourseId = courseId;
+            videoDto.LessonId = lessonId;
             return View(videoDto);
         }
 
+        [Route("[controller]/[action]/{courseId}/{lessonId}")]
         [HttpPost]
         public async Task<IActionResult> Create(VideoDto videoCreate)
         {
             var video = _mapper.Map<Video>(videoCreate);
             _videoRepository.Create(video);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Videos", new {courseId = videoCreate.CourseId, lessonId = videoCreate.LessonId});;
         }
 
-        public async Task<IActionResult> Update(int id)
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
+        public async Task<IActionResult> Update(int courseId, int lessonId, int id)
         {
-            var videoMap = _mapper.Map<VideoDto>(await _videoRepository.GetVideoByIdAsync(id));
-            videoMap.Lessons = await _videoRepository.GetAllLessonsAsync();
+            var videoMap = _mapper.Map<VideoDto>(await _videoRepository.GetVideoByIdAsync(courseId, lessonId, id));
+            videoMap.CourseId = courseId;    
+            videoMap.LessonId = lessonId;
             return View(videoMap);
         }
 
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
         [HttpPost]
         public async Task<IActionResult> Update(VideoDto videoUpdate)
         {
             var video = _mapper.Map<Video>(videoUpdate);
             _videoRepository.Update(video);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Videos", new { courseId = videoUpdate.CourseId, lessonId = videoUpdate.LessonId });
         }
 
-        public async Task<IActionResult> Delete(int id)
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
+        public async Task<IActionResult> Delete(int courseId, int lessonId, int id)
         {
-            var videoMap = _mapper.Map<VideoDto>(await _videoRepository.GetVideoByIdAsync(id));
-            videoMap.Lessons = await _videoRepository.GetAllLessonsAsync();
+            var videoMap = _mapper.Map<VideoDto>(await _videoRepository.GetVideoByIdAsync(courseId, lessonId, id));
+            videoMap.CourseId = courseId;
+            videoMap.LessonId = lessonId;
             return View(videoMap);
         }
 
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteVideo(int id)
+        public async Task<IActionResult> DeleteVideo(int courseId, int lessonId, int id)
         {
-            var video = await _videoRepository.GetVideoByIdAsync(id);
+            var video = await _videoRepository.GetVideoByIdAsync(courseId, lessonId, id);
             _videoRepository.Delete(video);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Videos", new { courseId = courseId, lessonId = lessonId });
         }
     }
 }

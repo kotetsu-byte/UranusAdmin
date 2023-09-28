@@ -4,9 +4,8 @@ namespace UranusAdmin.Interfaces
 {
     public interface ILessonRepository
     {
-        Task<IEnumerable<Lesson>> GetLessonsAsync();
-        Task<Lesson> GetLessonByIdAsync(int id);
-        Task<List<Course>> GetAllCoursesAsync();
+        Task<IEnumerable<Lesson>> GetLessonsAsync(int courseId);
+        Task<Lesson> GetLessonByIdAsync(int courseId, int id);
         bool Create(Lesson lesson);
         bool Update(Lesson lesson);
         bool Delete(Lesson lesson);

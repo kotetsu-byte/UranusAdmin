@@ -14,19 +14,14 @@ namespace UranusAdmin.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Video>> GetVideosAsync()
+        public async Task<IEnumerable<Video>> GetVideosAsync(int courseId, int lessonId)
         {
-            return await _context.Videos.ToListAsync();
+            return await _context.Videos.Where(v => v.Course.Id == courseId).Where(v => v.Lesson.Id == lessonId).ToListAsync();
         }
 
-        public async Task<Video> GetVideoByIdAsync(int id)
+        public async Task<Video> GetVideoByIdAsync(int courseId, int lessonId, int id)
         {
-            return await _context.Videos.FirstOrDefaultAsync(v => v.Id == id);
-        }
-
-        public async Task<List<Lesson>> GetAllLessonsAsync()
-        {
-            return await _context.Lessons.ToListAsync();
+            return await _context.Videos.Where(v => v.Course.Id == courseId).Where(v => v.Lesson.Id == lessonId).FirstOrDefaultAsync(v => v.Id == id);
         }
 
         public bool Create(Video video)

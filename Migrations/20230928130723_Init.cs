@@ -242,11 +242,17 @@ namespace UranusAdmin.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Url = table.Column<string>(type: "text", nullable: true),
-                    LessonId = table.Column<int>(type: "integer", nullable: true)
+                    LessonId = table.Column<int>(type: "integer", nullable: true),
+                    CourseId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Docs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Docs_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Docs_Lessons_LessonId",
                         column: x => x.LessonId,
@@ -263,11 +269,17 @@ namespace UranusAdmin.Migrations
                     Title = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Deadline = table.Column<DateOnly>(type: "date", nullable: true),
-                    LessonId = table.Column<int>(type: "integer", nullable: true)
+                    LessonId = table.Column<int>(type: "integer", nullable: true),
+                    CourseId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Homeworks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Homeworks_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Homeworks_Lessons_LessonId",
                         column: x => x.LessonId,
@@ -283,11 +295,17 @@ namespace UranusAdmin.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Url = table.Column<string>(type: "text", nullable: true),
-                    LessonId = table.Column<int>(type: "integer", nullable: true)
+                    LessonId = table.Column<int>(type: "integer", nullable: true),
+                    CourseId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Videos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Videos_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Videos_Lessons_LessonId",
                         column: x => x.LessonId,
@@ -303,15 +321,27 @@ namespace UranusAdmin.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Url = table.Column<string>(type: "text", nullable: true),
-                    HomeworkId = table.Column<int>(type: "integer", nullable: true)
+                    HomeworkId = table.Column<int>(type: "integer", nullable: true),
+                    LessonId = table.Column<int>(type: "integer", nullable: true),
+                    CourseId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Materials", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Materials_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Materials_Homeworks_HomeworkId",
                         column: x => x.HomeworkId,
                         principalTable: "Homeworks",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Materials_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
                         principalColumn: "Id");
                 });
 
@@ -353,9 +383,19 @@ namespace UranusAdmin.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Docs_CourseId",
+                table: "Docs",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Docs_LessonId",
                 table: "Docs",
                 column: "LessonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Homeworks_CourseId",
+                table: "Homeworks",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Homeworks_LessonId",
@@ -368,13 +408,28 @@ namespace UranusAdmin.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Materials_CourseId",
+                table: "Materials",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Materials_HomeworkId",
                 table: "Materials",
                 column: "HomeworkId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Materials_LessonId",
+                table: "Materials",
+                column: "LessonId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tests_CourseId",
                 table: "Tests",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Videos_CourseId",
+                table: "Videos",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(

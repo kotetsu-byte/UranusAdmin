@@ -14,19 +14,14 @@ namespace UranusAdmin.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Material>> GetMaterialsAsync()
+        public async Task<IEnumerable<Material>> GetMaterialsAsync(int courseId, int lessonId, int homeworkId)
         {
-            return await _context.Materials.ToListAsync();
+            return await _context.Materials.Where(m => m.Course.Id == courseId).Where(m => m.Lesson.Id == lessonId).Where(m => m.Homework.Id == homeworkId).ToListAsync();
         }
 
-        public async Task<Material> GetMaterialByIdAsync(int id)
+        public async Task<Material> GetMaterialByIdAsync(int courseId, int lessonId, int homeworkId, int id)
         {
-            return await _context.Materials.FirstOrDefaultAsync(m => m.Id == id);
-        }
-
-        public async Task<List<Homework>> GetAllHomeworksAsync()
-        {
-            return await _context.Homeworks.ToListAsync();
+            return await _context.Materials.Where(m => m.Course.Id == courseId).Where(m => m.Lesson.Id == lessonId).Where(m => m.Homework.Id == homeworkId).FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public bool Create(Material material)

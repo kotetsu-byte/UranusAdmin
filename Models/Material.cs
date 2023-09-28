@@ -12,5 +12,11 @@ namespace UranusAdmin.Models
         [ForeignKey("Homework")]
         public int? HomeworkId { get; set; }
         public Homework? Homework { get; set; }
+        [ForeignKey("Lesson")]
+        public int? LessonId { get; set; }
+        public Lesson? Lesson { get; set; }
+        [ForeignKey("Course")]
+        public int? CourseId { get; set; }
+        public Course? Course { get; set; }
     }
 }

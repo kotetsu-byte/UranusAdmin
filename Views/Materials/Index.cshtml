@@ -18,10 +18,9 @@
         {
             columns.Add(model => model.Title).Titled("Title");
             columns.Add(model => model.Url).Titled("Url");
-            columns.Add(model => model.Homework.Title).Titled("Homework");
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Materials", new { id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Materials", new { id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Materials", new { id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.HomeworkId, id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.HomeworkId, id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.HomeworkId, id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
         })
         .Sortable()
         .Filterable()
@@ -29,5 +28,16 @@
         )
 
     <br />
-    <button onclick="location.href = '@Url.Action("Create", "Materials")'">Create Material</button>
+    <button onclick="location.pathname = redirectToCreate()">Create Material</button>
 </div>
+
+<script>
+    function redirectToCreate() {
+        var strs = location.pathname.split('/');
+        var courseId = strs[strs.length - 3];
+        var lessonId = strs[strs.length - 2];
+        var homeworkId = strs[strs.length - 1];
+        var url = 'Materials/Create/' + courseId + '/' + lessonId + '/' + homeworkId;
+        return url;
+    }
+</script>

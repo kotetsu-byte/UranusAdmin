@@ -19,6 +19,8 @@
             columns.Add(model => model.Name).Titled("Name");
             columns.Add(model => model.Description).Titled("Description");
             columns.Add(model => model.Price).Titled("Price");
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Lessons", new { courseId = model.Id })}'\">Lessons</button>").Titled("Lessons").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Tests", new { courseId = model.Id })}'\">Tests</button>").Titled("Tests").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Courses", new { id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Courses", new { id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Courses", new { id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);

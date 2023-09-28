@@ -248,6 +248,9 @@ namespace UranusAdmin.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("LessonId")
                         .HasColumnType("integer");
 
@@ -258,6 +261,8 @@ namespace UranusAdmin.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("LessonId");
 
@@ -272,6 +277,9 @@ namespace UranusAdmin.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
                     b.Property<DateOnly?>("Deadline")
                         .HasColumnType("date");
 
@@ -285,6 +293,8 @@ namespace UranusAdmin.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("LessonId");
 
@@ -323,7 +333,13 @@ namespace UranusAdmin.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("HomeworkId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("LessonId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -334,7 +350,11 @@ namespace UranusAdmin.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
                     b.HasIndex("HomeworkId");
+
+                    b.HasIndex("LessonId");
 
                     b.ToTable("Materials");
                 });
@@ -414,6 +434,9 @@ namespace UranusAdmin.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("LessonId")
                         .HasColumnType("integer");
 
@@ -424,6 +447,8 @@ namespace UranusAdmin.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("LessonId");
 
@@ -483,18 +508,30 @@ namespace UranusAdmin.Migrations
 
             modelBuilder.Entity("UranusAdmin.Models.Doc", b =>
                 {
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Docs")
                         .HasForeignKey("LessonId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("UranusAdmin.Models.Homework", b =>
                 {
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Homeworks")
                         .HasForeignKey("LessonId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("Lesson");
                 });
@@ -510,11 +547,23 @@ namespace UranusAdmin.Migrations
 
             modelBuilder.Entity("UranusAdmin.Models.Material", b =>
                 {
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("UranusAdmin.Models.Homework", "Homework")
                         .WithMany("Materials")
                         .HasForeignKey("HomeworkId");
 
+                    b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("LessonId");
+
+                    b.Navigation("Course");
+
                     b.Navigation("Homework");
+
+                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("UranusAdmin.Models.Test", b =>
@@ -528,9 +577,15 @@ namespace UranusAdmin.Migrations
 
             modelBuilder.Entity("UranusAdmin.Models.Video", b =>
                 {
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Videos")
                         .HasForeignKey("LessonId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("Lesson");
                 });

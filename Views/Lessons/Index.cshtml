@@ -1,4 +1,5 @@
 ﻿@using UranusAdmin.Dto
+@using UranusAdmin.Repositories
 @model IEnumerable<LessonDto>
 
 <style>
@@ -18,10 +19,12 @@
         {
             columns.Add(model => model.Title).Titled("Title");
             columns.Add(model => model.Content).Titled("Content");
-            columns.Add(model => model.Course.Name).Titled("Course");
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Lessons", new { id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Lessons", new { id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Lessons", new { id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Homeworks", new { courseId = model.CourseId, lessonId = model.Id })}'\">Homeworks</button>").Titled("Homeworks").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Videos", new { courseId = model.CourseId, lessonId = model.Id })}'\">Videos</button>").Titled("Videos").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Docs", new { courseId = model.CourseId, lessonId = model.Id })}'\">Docs</button>").Titled("Docs").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Lessons", new { courseId = model.CourseId, id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Lessons", new { courseId = model.CourseId, id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Lessons", new { courseId = model.CourseId, id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);
         })
         .Sortable()
         .Filterable()
@@ -29,5 +32,15 @@
         )
     
     <br />
-    <button onclick="location.href = '@Url.Action("Create", "Lessons")'">Create Lesson</button>
+    <button onclick="location.pathname = redirectToCreate()">Create Lesson</button>
 </div>
+
+<script>
+    function redirectToCreate()
+    {
+        var str = location.pathname;
+        var id = str.slice(str.lastIndexOf('/') + 1);
+        var url = 'Lessons/Create/' + id;
+        return url;
+    }
+</script>

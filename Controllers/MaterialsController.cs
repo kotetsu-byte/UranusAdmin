@@ -9,74 +9,96 @@ namespace UranusAdmin.Controllers
     public class MaterialsController : Controller
     {
         private readonly IMaterialRepository _materialRepository;
-        private readonly IHomeworkRepository _homeworkRepository;
         private readonly IMapper _mapper;
 
         public MaterialsController(IMaterialRepository materialRepository, IHomeworkRepository homeworkRepository, IMapper mapper)
         {
             _materialRepository = materialRepository;
-            _homeworkRepository = homeworkRepository;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}")]
+        public async Task<IActionResult> Index(int courseId, int lessonId, int homeworkId)
         {
-            var materialsMap = _mapper.Map<List<MaterialDto>>(await _materialRepository.GetMaterialsAsync());
+            var materialsMap = _mapper.Map<List<MaterialDto>>(await _materialRepository.GetMaterialsAsync(courseId, lessonId, homeworkId));
+            foreach(var materialMap in materialsMap)
+            {
+                materialMap.CourseId = courseId;
+                materialMap.LessonId = lessonId;
+                materialMap.HomeworkId = homeworkId;
+            }
             return View(materialsMap);
         }
 
-        public async Task<IActionResult> Details(int id)
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}/{id?}")]
+        public async Task<IActionResult> Details(int courseId, int lessonId, int homeworkId, int id)
         {
-            var materialMap = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialByIdAsync(id));
+            var materialMap = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialByIdAsync(courseId, lessonId, homeworkId, id));
+            materialMap.CourseId = courseId;
+            materialMap.LessonId = lessonId;
+            materialMap.HomeworkId = homeworkId;
             return View(materialMap);
         }
 
-        public async Task<IActionResult> Create()
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}")]
+        public async Task<IActionResult> Create(int courseId, int lessonId, int homeworkId)
         {
             var materialDto = new MaterialDto();
-            materialDto.Homeworks = await _materialRepository.GetAllHomeworksAsync();
+            materialDto.CourseId = courseId;
+            materialDto.LessonId = lessonId;
+            materialDto.HomeworkId = homeworkId;
             return View(materialDto);
         }
 
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}")]
         [HttpPost]
         public async Task<IActionResult> Create(MaterialDto materialCreate)
         {
             var material = _mapper.Map<Material>(materialCreate);
             _materialRepository.Create(material);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Materials", new {courseId = materialCreate.CourseId, lessonId = materialCreate.LessonId, homeworkId = materialCreate.HomeworkId});
         }
 
-        public async Task<IActionResult> Update(int id)
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}/{id?}")]
+        public async Task<IActionResult> Update(int courseId, int lessonId, int homeworkId, int id)
         {
-            var materialMap = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialByIdAsync(id));
-            materialMap.Homeworks = await _materialRepository.GetAllHomeworksAsync();
+            var materialMap = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialByIdAsync(courseId, lessonId, homeworkId, id));
+            materialMap.CourseId = courseId; ;
+            materialMap.LessonId = lessonId;
+            materialMap.HomeworkId = homeworkId;
             return View(materialMap);
         }
 
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}/{id?}")]
         [HttpPost]
         public async Task<IActionResult> Update(MaterialDto materialUpdate)
         {
             var material = _mapper.Map<Material>(materialUpdate);
             _materialRepository.Update(material);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Materials", new { courseId = materialUpdate.CourseId, lessonId = materialUpdate.LessonId, homeworkId = materialUpdate.HomeworkId });
         }
 
-        public async Task<IActionResult> Delete(int id)
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homewrokId}/{id?}")]
+        public async Task<IActionResult> Delete(int courseId, int lessonId, int homeworkId, int id)
         {
-            var materialMap = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialByIdAsync(id));
-            materialMap.Homeworks = await _materialRepository.GetAllHomeworksAsync();
+            var materialMap = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialByIdAsync(courseId, lessonId, homeworkId, id));
+            materialMap.CourseId = courseId;
+            materialMap.LessonId = lessonId;
+            materialMap.HomeworkId = homeworkId;
             return View(materialMap);
         }
 
+        [Route("[controller]/[action]/{courseId}/{lessonId}/{homewrokId}/{id?}")]
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteMaterial(int id)
+        public async Task<IActionResult> DeleteMaterial(int courseId, int lessonId, int homewrokId, int id)
         {
-            var material = await _materialRepository.GetMaterialByIdAsync(id);
+            var material = await _materialRepository.GetMaterialByIdAsync(courseId, lessonId, homewrokId, id);
 
             _materialRepository.Delete(material);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Materials", new { courseId = courseId, lessonId = lessonId, homeworkId = homewrokId });
         }
     }
 }
