@@ -10,6 +10,8 @@ table td, table th, table {
 </style>
 
 <div id="container">
+    <button onclick="location.href = '@Url.Action("Index", "Lessons", new {courseId = ViewBag.CourseId})'">Back</button>
+    <br />
     <h2 id="header">Videos</h2>
     
     @(

@@ -12,7 +12,7 @@ using UranusAdmin.Data;
 namespace UranusAdmin.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230928130723_Init")]
+    [Migration("20230929083621_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -517,7 +517,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Docs")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
@@ -532,7 +533,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Homeworks")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
@@ -543,7 +545,8 @@ namespace UranusAdmin.Migrations
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
                         .WithMany("Lessons")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
                 });
@@ -556,7 +559,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Homework", "Homework")
                         .WithMany("Materials")
-                        .HasForeignKey("HomeworkId");
+                        .HasForeignKey("HomeworkId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany()
@@ -573,7 +577,8 @@ namespace UranusAdmin.Migrations
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
                         .WithMany("Tests")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
                 });
@@ -586,7 +591,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Videos")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 

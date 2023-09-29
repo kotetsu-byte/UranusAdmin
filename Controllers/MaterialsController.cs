@@ -27,6 +27,8 @@ namespace UranusAdmin.Controllers
                 materialMap.LessonId = lessonId;
                 materialMap.HomeworkId = homeworkId;
             }
+            ViewBag.CourseId = courseId;
+            ViewBag.LessonId = lessonId;
             return View(materialsMap);
         }
 

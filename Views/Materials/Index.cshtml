@@ -9,6 +9,8 @@
 </style>
 
 <div id="container">
+    <button onclick="location.href = '@Url.Action("Index", "Homeworks", new {courseId = ViewBag.CourseId, lessonId = ViewBag.LessonId})'">Back</button>
+    <br />
     <h2 id="header">Materials</h2>
 
     @(

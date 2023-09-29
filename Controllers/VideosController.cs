@@ -26,6 +26,7 @@ namespace UranusAdmin.Controllers
                 videoMap.CourseId = courseId;
                 videoMap.LessonId = lessonId;
             }
+            ViewBag.CourseId = courseId;
             return View(videosMap);
         }
 

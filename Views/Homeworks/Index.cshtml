@@ -9,6 +9,7 @@
 </style>
 
 <div id="container">
+    <button onclick="location.href = '@Url.Action("Index", "Lessons", new {courseId = ViewBag.CourseId})'">Back</button>
     <h2 id="header">Homeworks</h2>
 
     @(
@@ -19,7 +20,7 @@
             columns.Add(model => model.Title).Titled("Title");
             columns.Add(model => model.Description).Titled("Description");
             columns.Add(model => model.Deadline).Titled("Description");
-            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.Id })}'\">Homeworks</button>").Titled("Homeworks").Encoded(false);
+            columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Index", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.Id })}'\">Materials</button>").Titled("Homeworks").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Homeworks", new { courseId = model.CourseId, lessonId = model.LessonId, id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Homeworks", new { courseId = model.CourseId, lessonId = model.LessonId, id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Homeworks", new { courseId = model.CourseId, lessonId = model.LessonId, id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);

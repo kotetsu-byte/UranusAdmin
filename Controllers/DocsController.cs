@@ -26,6 +26,7 @@ namespace UranusAdmin.Controllers
                 docMap.CourseId = courseId;
                 docMap.LessonId = lessonId;
             }
+            ViewBag.CourseId = courseId;
             return View(docsMap);
         }
 

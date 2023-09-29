@@ -514,7 +514,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Docs")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
@@ -529,7 +530,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Homeworks")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
@@ -540,7 +542,8 @@ namespace UranusAdmin.Migrations
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
                         .WithMany("Lessons")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
                 });
@@ -553,7 +556,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Homework", "Homework")
                         .WithMany("Materials")
-                        .HasForeignKey("HomeworkId");
+                        .HasForeignKey("HomeworkId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany()
@@ -570,7 +574,8 @@ namespace UranusAdmin.Migrations
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
                         .WithMany("Tests")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
                 });
@@ -583,7 +588,8 @@ namespace UranusAdmin.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Videos")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 

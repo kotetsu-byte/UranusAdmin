@@ -26,6 +26,7 @@ namespace UranusAdmin.Controllers
                 homeworkMap.CourseId = courseId;
                 homeworkMap.LessonId = lessonId;
             }
+            ViewBag.CourseId = courseId;
             return View(homeworksMap);
         }
 
