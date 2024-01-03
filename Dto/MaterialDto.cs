@@ -12,10 +12,8 @@ namespace UranusAdmin.Dto
         {
             get; set;
         }
-        public string? Url
-        {
-            get; set;
-        }
+        public string? MaterialName { get; set; }
+        public IFormFile? MaterialContent { get; set; }
         public Homework? Homework { get; set; }
         public int? HomeworkId { get; set; }
         public Lesson? Lesson { get; set; }

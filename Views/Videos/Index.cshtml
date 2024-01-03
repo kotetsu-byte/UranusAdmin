@@ -20,7 +20,7 @@ table td, table th, table {
         .Build(columns =>
         {
             columns.Add(model => model.Title).Titled("Title");
-            columns.Add(model => model.Url).Titled("Url");
+            columns.Add(model => model.VideoName).Titled("File");
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Videos", new { courseId = model.CourseId, lessonId = model.LessonId, id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Videos", new { courseId = model.CourseId, lessonId = model.LessonId, id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Videos", new { courseId = model.CourseId, lessonId = model.LessonId, id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);

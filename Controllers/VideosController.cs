@@ -9,11 +9,15 @@ namespace UranusAdmin.Controllers
     public class VideosController : Controller
     {
         private readonly IVideoRepository _videoRepository;
+        private readonly ILessonRepository _lessonRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public VideosController(IVideoRepository videoRepository, ILessonRepository lessonRepository, IMapper mapper)
+        public VideosController(IVideoRepository videoRepository, ILessonRepository lessonRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _videoRepository = videoRepository;
+            _lessonRepository = lessonRepository;
+            _courseRepository = courseRepository;
             _mapper = mapper;
         }
 
@@ -50,9 +54,25 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(VideoDto videoCreate)
+        public async Task<IActionResult> Create(VideoDto videoCreate, int courseId, int lessonId)
         {
+            videoCreate.VideoName = videoCreate.VideoContent.FileName;
+            
             var video = _mapper.Map<Video>(videoCreate);
+
+            video.CourseId = courseId;
+            video.LessonId = lessonId;
+
+            var course = await _courseRepository.GetCourseByIdAsync(courseId);
+            var lesson = await _lessonRepository.GetLessonByIdAsync(courseId, lessonId);
+
+            var path = $"wwwroot/videos/{course.Name}/{lesson.Title}/{videoCreate.VideoContent.FileName}";
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                videoCreate.VideoContent.CopyTo(stream);
+            }
+
             _videoRepository.Create(video);
             return RedirectToAction("Index", "Videos", new {courseId = videoCreate.CourseId, lessonId = videoCreate.LessonId});;
         }
@@ -68,9 +88,23 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
         [HttpPost]
-        public async Task<IActionResult> Update(VideoDto videoUpdate)
+        public async Task<IActionResult> Update(VideoDto videoUpdate, int courseId, int lessonId)
         {
             var video = _mapper.Map<Video>(videoUpdate);
+
+            var course = await _courseRepository.GetCourseByIdAsync(courseId);
+            var lesson = await _lessonRepository.GetLessonByIdAsync(courseId, lessonId);
+
+            var path = $"wwwroot/videos/{course.Name}/{lesson.Title}/{videoUpdate.VideoContent.FileName}";
+
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                videoUpdate.VideoContent.CopyTo(stream);
+            }
+
             _videoRepository.Update(video);
 
             return RedirectToAction("Index", "Videos", new { courseId = videoUpdate.CourseId, lessonId = videoUpdate.LessonId });

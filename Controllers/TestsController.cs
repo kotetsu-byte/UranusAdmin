@@ -51,9 +51,12 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(TestDto testCreate)
+        public async Task<IActionResult> Create(TestDto testCreate, int courseId)
         {
             var test = _mapper.Map<Test>(testCreate);
+
+            test.CourseId = courseId;
+
             _testRepository.Create(test);
             return RedirectToAction("Index", "Tests", new {courseId = testCreate.CourseId});
         }

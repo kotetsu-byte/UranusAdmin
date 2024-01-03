@@ -8,7 +8,7 @@ namespace UranusAdmin.Models
         [Key]
         public int? Id { get; set; }
         public string? Title { get; set; }
-        public string? Url { get; set; }
+        public string? MaterialName { get; set; }
         [ForeignKey("Homework")]
         public int? HomeworkId { get; set; }
         public Homework? Homework { get; set; }

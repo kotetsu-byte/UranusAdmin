@@ -9,11 +9,17 @@ namespace UranusAdmin.Controllers
     public class MaterialsController : Controller
     {
         private readonly IMaterialRepository _materialRepository;
+        private readonly IHomeworkRepository _homeworkRepository;
+        private readonly ILessonRepository _lessonRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public MaterialsController(IMaterialRepository materialRepository, IHomeworkRepository homeworkRepository, IMapper mapper)
+        public MaterialsController(IMaterialRepository materialRepository, IHomeworkRepository homeworkRepository, ILessonRepository lessonRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _materialRepository = materialRepository;
+            _homeworkRepository = homeworkRepository;
+            _lessonRepository = lessonRepository;
+            _courseRepository = courseRepository;
             _mapper = mapper;
         }
 
@@ -54,9 +60,25 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(MaterialDto materialCreate)
+        public async Task<IActionResult> Create(MaterialDto materialCreate, int courseId, int lessonId, int homeworkId)
         {
             var material = _mapper.Map<Material>(materialCreate);
+
+            material.CourseId = courseId;
+            material.LessonId = lessonId;
+            material.HomeworkId = homeworkId;
+
+            var course = await _courseRepository.GetCourseByIdAsync(courseId);
+            var lesson = await _lessonRepository.GetLessonByIdAsync(courseId, lessonId);
+            var homework = await _homeworkRepository.GetHomeworkByIdAsync(courseId, lessonId, homeworkId);
+
+            var path = $"wwwroot/materials/{course.Name}/{lesson.Title}/{homework.Title}/{materialCreate.MaterialContent.FileName}";
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                materialCreate.MaterialContent.CopyTo(stream);
+            }
+
             _materialRepository.Create(material);
 
             return RedirectToAction("Index", "Materials", new {courseId = materialCreate.CourseId, lessonId = materialCreate.LessonId, homeworkId = materialCreate.HomeworkId});
@@ -74,9 +96,24 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}/{id?}")]
         [HttpPost]
-        public async Task<IActionResult> Update(MaterialDto materialUpdate)
+        public async Task<IActionResult> Update(MaterialDto materialUpdate, int courseId, int lessonId, int homeworkId)
         {
             var material = _mapper.Map<Material>(materialUpdate);
+
+            var course = await _courseRepository.GetCourseByIdAsync(courseId);
+            var lesson = await _lessonRepository.GetLessonByIdAsync(courseId, lessonId);
+            var homework = await _homeworkRepository.GetHomeworkByIdAsync(courseId, lessonId, homeworkId);
+
+            var path = $"wwwroot/materials/{course.Name}/{lesson.Title}/{homework.Title}/{materialUpdate.MaterialContent.FileName}";
+
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                materialUpdate.MaterialContent.CopyTo(stream);
+            }
+
             _materialRepository.Update(material);
 
             return RedirectToAction("Index", "Materials", new { courseId = materialUpdate.CourseId, lessonId = materialUpdate.LessonId, homeworkId = materialUpdate.HomeworkId });

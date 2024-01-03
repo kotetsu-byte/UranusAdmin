@@ -3,16 +3,16 @@
 
 <h1>Are you sure you want to delete this video?</h1>
 
-<form method="post" asp-action="Delete">
+<form method="post" asp-action="Delete" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Title">Title</label>
         <input asp-for="Title" class="form-control" placeholder="Enter title" disabled/>
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Url">Url</label>
-        <input asp-for="Url" class="form-control" placeholder="Enter url" disabled/>
-        <span asp-validation-for="Url" class="text-danger"></span>
+        <label asp-for="VideoContent">File</label>
+        <input asp-for="VideoContent" type="file" class="form-control" placeholder="Enter a file" disabled />
+        <span asp-validation-for="VideoContent" class="text-danger"></span>
     </div>
 </form>
 

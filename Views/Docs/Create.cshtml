@@ -1,17 +1,17 @@
 ﻿@using UranusAdmin.Dto
 @model DocDto
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Title">Title</label>
         <input asp-for="Title" class="form-control" placeholder="Enter title" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Url">Url</label>
-        <input asp-for="Url" class="form-control" placeholder="Enter url" />
-        <span asp-validation-for="Url" class="text-danger"></span>
+        <label asp-for="DocContent">File</label>
+        <input asp-for="DocContent" type="file" class="form-control" placeholder="Enter a file" />
+        <span asp-validation-for="DocContent" class="text-danger"></span>
     </div>
-
+    <br />
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>

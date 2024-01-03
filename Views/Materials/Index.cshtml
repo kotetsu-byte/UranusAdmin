@@ -19,7 +19,7 @@
         .Build(columns =>
         {
             columns.Add(model => model.Title).Titled("Title");
-            columns.Add(model => model.Url).Titled("Url");
+            columns.Add(model => model.MaterialName).Titled("File");
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Details", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.HomeworkId, id = model.Id })}'\">Detials</button>").Titled("Details").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Update", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.HomeworkId, id = model.Id })}'\">Edit</button>").Titled("Edit").Encoded(false);
             columns.Add(model => $"<button onclick=\"location.href = '{@Url.Action("Delete", "Materials", new { courseId = model.CourseId, lessonId = model.LessonId, homeworkId = model.HomeworkId, id = model.Id })}'\">Delete</button>").Titled("Delete").Encoded(false);

@@ -9,11 +9,15 @@ namespace UranusAdmin.Controllers
     public class DocsController : Controller
     {
         private readonly IDocRepository _docRepository;
+        private readonly ILessonRepository _lessonRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IMapper _mapper;
 
-        public DocsController(IDocRepository docRepository, ILessonRepository lessonRepository, IMapper mapper)
+        public DocsController(IDocRepository docRepository, ILessonRepository lessonRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _docRepository = docRepository;
+            _lessonRepository = lessonRepository;
+            _courseRepository = courseRepository;
             _mapper = mapper;
         }
 
@@ -50,9 +54,24 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(DocDto docCreate)
+        public async Task<IActionResult> Create(DocDto docCreate, int courseId, int lessonId)
         {
+            docCreate.DocName = docCreate.DocContent.FileName;
+
             var doc = _mapper.Map<Doc>(docCreate);
+
+            doc.CourseId = courseId;
+            doc.LessonId = lessonId;
+
+            var course = await _courseRepository.GetCourseByIdAsync(courseId);
+            var lesson = await _lessonRepository.GetLessonByIdAsync(courseId, lessonId);
+
+            var path = $"wwwroot/docs/{course.Name}/{lesson.Title}/{docCreate.DocContent.FileName}";
+
+            using(var stream = new FileStream(path, FileMode.Create))
+            {
+                docCreate.DocContent.CopyTo(stream);
+            }
 
             _docRepository.Create(doc);
 
@@ -70,9 +89,22 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}/{id?}")]
         [HttpPost]
-        public async Task<IActionResult> Update(DocDto docUpdate)
+        public async Task<IActionResult> Update(DocDto docUpdate, int courseId, int lessonId)
         {
             var doc = _mapper.Map<Doc>(docUpdate);
+
+            var course = await _courseRepository.GetCourseByIdAsync(courseId);
+            var lesson = await _lessonRepository.GetLessonByIdAsync(courseId, lessonId);
+
+            var path = $"wwwroot/docs/{course.Name}/{lesson.Title}/{docUpdate.DocContent.FileName}";
+
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                docUpdate.DocContent.CopyTo(stream);
+            }
 
             _docRepository.Update(doc);
 
