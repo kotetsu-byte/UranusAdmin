@@ -60,8 +60,11 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}/{homeworkId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(MaterialDto materialCreate, int courseId, int lessonId, int homeworkId)
+        public async Task<IActionResult> Create(MaterialPostDto materialCreate, int courseId, int lessonId, int homeworkId)
         {
+            if (!ModelState.IsValid)
+                return View(materialCreate);
+            
             var material = _mapper.Map<Material>(materialCreate);
 
             material.CourseId = courseId;
@@ -98,6 +101,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(MaterialDto materialUpdate, int courseId, int lessonId, int homeworkId)
         {
+            if (!ModelState.IsValid)
+                return View(materialUpdate);
+            
             var material = _mapper.Map<Material>(materialUpdate);
 
             var course = await _courseRepository.GetCourseByIdAsync(courseId);

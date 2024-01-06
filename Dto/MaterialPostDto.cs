@@ -1,0 +1,20 @@
+﻿using UranusAdmin.Models;
+
+namespace UranusAdmin.Dto
+{
+    public class MaterialPostDto
+    {
+        public string? Title
+        {
+            get; set;
+        }
+        public string? MaterialName { get; set; }
+        public IFormFile? MaterialContent { get; set; }
+        public Homework? Homework { get; set; }
+        public int? HomeworkId { get; set; }
+        public Lesson? Lesson { get; set; }
+        public int? LessonId { get; set; }
+        public Course? Course { get; set; }
+        public int? CourseId { get; set; }
+    }
+}

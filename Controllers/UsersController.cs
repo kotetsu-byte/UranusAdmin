@@ -34,8 +34,11 @@ namespace UranusAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(UserDto userCreate)
+        public IActionResult Create(UserPostDto userCreate)
         {
+            if (!ModelState.IsValid)
+                return View(userCreate);
+
             var user = _mapper.Map<User>(userCreate);
             _userRepository.Create(user);
             return RedirectToAction("Index");
@@ -50,6 +53,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public IActionResult Update(UserDto userUpdate)
         {
+            if (!ModelState.IsValid)
+                return View(userUpdate);
+
             var user = _mapper.Map<User>(userUpdate);
             _userRepository.Update(user);
             return RedirectToAction("Index");

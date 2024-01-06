@@ -24,6 +24,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
+            if(!ModelState.IsValid)
+                return View(loginDto);
+            
             var admin = await _userManager.FindByNameAsync(loginDto.Username);
 
             if(admin != null)
@@ -52,6 +55,11 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(registerDto);
+            }
+            
             var admin = new Admin()
             {
                 UserName = registerDto.Username

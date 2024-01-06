@@ -50,8 +50,11 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(HomeworkDto homeworkCreate, int courseId, int lessonId)
+        public async Task<IActionResult> Create(HomeworkPostDto homeworkCreate, int courseId, int lessonId)
         {
+            if (!ModelState.IsValid)
+                return View(homeworkCreate);
+
             var homework = _mapper.Map<Homework>(homeworkCreate);
 
             homework.CourseId = courseId;
@@ -74,6 +77,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(HomeworkDto homeworkUpdate)
         {
+            if(!ModelState.IsValid)
+                return View(homeworkUpdate);
+
             var homework = _mapper.Map<Homework>(homeworkUpdate);
             _homeworkRepository.Update(homework);
             return RedirectToAction("Index", "Homeworks", new { courseId = homeworkUpdate.CourseId, lessonId = homeworkUpdate.LessonId });

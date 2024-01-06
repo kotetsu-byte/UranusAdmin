@@ -35,8 +35,11 @@ namespace UranusAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CourseDto courseCreate)
+        public IActionResult Create(CoursePostDto courseCreate)
         {
+            if (!ModelState.IsValid)
+                return View(courseCreate);
+            
             var course = _mapper.Map<Course>(courseCreate);
             _courseRepository.Create(course);
             return RedirectToAction("Index");
@@ -51,6 +54,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public IActionResult Update(CourseDto courseUpdate)
         {
+            if (!ModelState.IsValid)
+                return View(courseUpdate);
+            
             var course = _mapper.Map<Course>(courseUpdate);
             _courseRepository.Update(course);
             return RedirectToAction("Index");

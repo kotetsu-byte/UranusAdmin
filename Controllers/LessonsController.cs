@@ -47,8 +47,11 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(LessonDto lessonCreate, int courseId)
+        public async Task<IActionResult> Create(LessonPostDto lessonCreate, int courseId)
         {
+            if(!ModelState.IsValid)
+                return View(lessonCreate);
+            
             var lesson = _mapper.Map<Lesson>(lessonCreate);
 
             lesson.CourseId = courseId;
@@ -69,6 +72,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(LessonDto lessonUpdate)
         {
+            if (!ModelState.IsValid)
+                return View(lessonUpdate);
+            
             var lesson = _mapper.Map<Lesson>(lessonUpdate);
             _lessonRepository.Update(lesson);
             return RedirectToAction("Index", "Lessons", new { courseId = lessonUpdate.CourseId });

@@ -54,8 +54,11 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(DocDto docCreate, int courseId, int lessonId)
+        public async Task<IActionResult> Create(DocPostDto docCreate, int courseId, int lessonId)
         {
+            if (!ModelState.IsValid)
+                return View(docCreate);
+            
             docCreate.DocName = docCreate.DocContent.FileName;
 
             var doc = _mapper.Map<Doc>(docCreate);
@@ -91,6 +94,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(DocDto docUpdate, int courseId, int lessonId)
         {
+            if(!ModelState.IsValid)
+                return View(docUpdate);
+
             var doc = _mapper.Map<Doc>(docUpdate);
 
             var course = await _courseRepository.GetCourseByIdAsync(courseId);

@@ -54,8 +54,11 @@ namespace UranusAdmin.Controllers
 
         [Route("[controller]/[action]/{courseId}/{lessonId}")]
         [HttpPost]
-        public async Task<IActionResult> Create(VideoDto videoCreate, int courseId, int lessonId)
+        public async Task<IActionResult> Create(VideoPostDto videoCreate, int courseId, int lessonId)
         {
+            if (!ModelState.IsValid)
+                return View(videoCreate);
+
             videoCreate.VideoName = videoCreate.VideoContent.FileName;
             
             var video = _mapper.Map<Video>(videoCreate);
@@ -90,6 +93,9 @@ namespace UranusAdmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(VideoDto videoUpdate, int courseId, int lessonId)
         {
+            if (!ModelState.IsValid)
+                return View(videoUpdate);
+
             var video = _mapper.Map<Video>(videoUpdate);
 
             var course = await _courseRepository.GetCourseByIdAsync(courseId);
